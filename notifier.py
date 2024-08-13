@@ -15,8 +15,14 @@ def open_link():
 def load_seen_news_from_JSON():
     try:
         with open('seen_news.json', 'r', encoding='utf-8') as f:
-            seen_news = json.load(f)
-    except FileNotFoundError:
+            file_contents = f.read().strip()
+            if not file_contents:
+                return []
+            seen_news = json.loads(file_contents)
+            if not isinstance(seen_news, list):
+                raise ValueError("JSON data is not a list")
+    except (FileNotFoundError, json.JSONDecodeError, ValueError) as e:
+        print(f"Error loading JSON file: {e}")
         seen_news = []
     return seen_news
 
