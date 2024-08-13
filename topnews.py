@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 
-def loadRSS():
+def load_rss():
     url = "https://www.g4media.ro/feed"
     resp = requests.get(url)
     with open('topnewsfeed.xml', 'wb') as f:
@@ -11,10 +11,10 @@ def loadRSS():
     return 'topnewsfeed.xml'
 
 
-def parseXML(xmlfile):
+def parse_xml(xmlfile):
     tree = ET.parse(xmlfile)
     root = tree.getroot()
-    newsitems = []
+    news_items = []
 
     for item in root.findall('./channel/item'):
         news = {}
@@ -26,19 +26,19 @@ def parseXML(xmlfile):
                 news[child.tag] = formatted_date
             elif child.tag in ['title', 'link']:
                 news[child.tag] = child.text
-        newsitems.append(news)
-    return newsitems
+        news_items.append(news)
+    return news_items
 
 
-def topStories():
-    xmlfile = loadRSS()
-    newsitems = parseXML(xmlfile)
-    return newsitems
+def top_stories():
+    xml_file = load_rss()
+    news_items = parse_xml(xml_file)
+    return news_items
 
 
 def main():
-    newsitems = topStories()
-    for item in newsitems:
+    news_items = top_stories()
+    for item in news_items:
         print(item)
 
 
