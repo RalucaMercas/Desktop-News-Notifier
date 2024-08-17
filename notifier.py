@@ -50,4 +50,4 @@ for current_news in news_items:
         toast.show_toast(current_news['pubDate'], current_news['title'], duration=20, callback_on_click=open_link)
         seen_news.append(current_news)
         save_news_to_JSON(seen_news)
-        time.sleep(15)
+        break

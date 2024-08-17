@@ -27,6 +27,7 @@ def parse_xml(xmlfile):
             elif child.tag in ['title', 'link']:
                 news[child.tag] = child.text
         news_items.append(news)
+    news_items = sorted(news_items, key=lambda x: datetime.strptime(x['pubDate'], "%d %b %Y %H:%M"), reverse=True)
     return news_items
 
 
