@@ -31,14 +31,14 @@ def parse_xml(xmlfile):
     return news_items
 
 
-def top_stories():
+def get_today_news():
     xml_file = load_rss()
     news_items = parse_xml(xml_file)
     return news_items
 
 
 def main():
-    news_items = top_stories()
+    news_items = get_today_news()
     for item in news_items:
         print(item)
 

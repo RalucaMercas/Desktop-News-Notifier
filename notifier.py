@@ -1,8 +1,9 @@
 import time
 import webbrowser
-from topnews import top_stories
+from topnews import get_today_news
 from win10toast_click import ToastNotifier
 import json
+from datetime import datetime
 
 
 def open_link():
@@ -12,7 +13,7 @@ def open_link():
         print(f"Cannot open the link: {e}")
 
 
-def load_seen_news_from_JSON():
+def get_seen_news_from_JSON():
     try:
         with open('seen_news.json', 'r', encoding='utf-8') as f:
             file_contents = f.read().strip()
@@ -38,16 +39,22 @@ def is_news_seen(news_item, seen_news):
             return True
     return False
 
+def clean_up_old_news(seen_news):
+    current_date = datetime.now().strftime("%d %b %Y")
+    cleaned_news = [news for news in seen_news if news['pubDate'].startswith(current_date)]
+    return cleaned_news
 
-news_items = top_stories()
+
+today_news_items = get_today_news()
 i = 0
 toast = ToastNotifier()
-seen_news = load_seen_news_from_JSON()
-for current_news in news_items:
+seen_news = get_seen_news_from_JSON()
+cleaned_news = clean_up_old_news(seen_news)
+for current_news in today_news_items:
     link = current_news['link']
     i += 1
-    if not is_news_seen(current_news, seen_news):
+    if not is_news_seen(current_news, cleaned_news):
         toast.show_toast(current_news['pubDate'], current_news['title'], duration=20, callback_on_click=open_link)
-        seen_news.append(current_news)
-        save_news_to_JSON(seen_news)
+        cleaned_news.append(current_news)
+        save_news_to_JSON(cleaned_news)
         break
