@@ -1,19 +1,39 @@
 import tkinter
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 
 def enter_data():
-    firstname = first_name_entry.get()
-    lastname = last_name_entry.get()
-    from_hour = from_hour_spinbox.get()
-    from_minute = from_minute_spinbox.get()
-    to_hour = to_hour_spinbox.get()
-    to_minute = to_minute_spinbox.get()
-    frequency = frequency_combobox.get()
     terms_status = terms_status_var.get()
-    print(
-        f"First Name: {firstname} Last Name: {lastname} From: {from_hour}:{from_minute} To: {to_hour}:{to_minute}  "
-        f"Frequency: {frequency} Terms: {terms_status}")
+    firstname = first_name_entry.get().strip()
+    lastname = last_name_entry.get().strip()
+    from_hour = from_hour_spinbox.get().strip()
+    from_minute = from_minute_spinbox.get().strip()
+    to_hour = to_hour_spinbox.get().strip()
+    to_minute = to_minute_spinbox.get().strip()
+    frequency = frequency_combobox.get().strip()
+
+    if not firstname or not lastname or not from_hour or not from_minute or not to_hour or not to_minute or not frequency:
+        messagebox.showwarning("Warning", "All fields must be completed.")
+        return
+
+    try:
+        from_hour = int(from_hour)
+        from_minute = int(from_minute)
+        to_hour = int(to_hour)
+        to_minute = int(to_minute)
+        if (not (0 <= from_hour <= 23) or not (0 <= from_minute <= 59) or not (0 <= to_hour <= 23) or
+                not (0 <= to_minute <= 59)):
+            raise ValueError()
+    except ValueError as e:
+        messagebox.showwarning("Warning", "Invalid time input.")
+        return
+
+    if terms_status == "Not Accepted":
+        messagebox.showwarning("Warning", "You must accept the terms and conditions.")
+    else:
+        print(
+            f"First Name: {firstname} Last Name: {lastname} From: {from_hour}:{from_minute} To: {to_hour}:{to_minute}  "
+            f"Frequency: {frequency} Terms: {terms_status}")
 
 
 window = tkinter.Tk()
@@ -39,7 +59,7 @@ last_name_entry.grid(row=1, column=1)
 for widget in user_info_frame.winfo_children():
     widget.grid_configure(padx=35, pady=5)
 
-# saving notification preferences
+# notification preferences - time interval frame
 time_interval_frame = tkinter.LabelFrame(frame, text="Notification Time Interval")
 time_interval_frame.grid(row=1, column=0, sticky="news", padx=20, pady=10)
 
@@ -64,7 +84,7 @@ to_minute_spinbox.grid(row=1, column=3)
 for widget in time_interval_frame.winfo_children():
     widget.grid_configure(padx=10, pady=5)
 
-# frequency frame
+# notification preferences - frequency frame
 notification_frequency_frame = tkinter.LabelFrame(frame, text="Notification Frequency")
 notification_frequency_frame.grid(row=2, column=0, sticky="news", padx=20, pady=10)
 
@@ -72,7 +92,8 @@ frequency_label = tkinter.Label(notification_frequency_frame, text="Frequency:")
 frequency_label.grid(row=0, column=0)
 frequency_combobox = ttk.Combobox(notification_frequency_frame, values=["5 minutes", "10 minutes", "15 minutes",
                                                                         "30 minutes", "1 hour", "2 hours", "3 hours",
-                                                                        "6 hours", "12 hours", "Once a day", "Never"])
+                                                                        "6 hours", "12 hours", "Once a day", "Never"],
+                                  state="readonly")
 frequency_combobox.grid(row=0, column=1)
 
 for widget in notification_frequency_frame.winfo_children():
