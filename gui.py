@@ -28,6 +28,38 @@ def enter_data():
         messagebox.showwarning("Warning", "Invalid time input.")
         return
 
+    start_time = from_hour * 60 + from_minute
+    end_time = to_hour * 60 + to_minute
+
+    if end_time < start_time:
+        # Handle overnight intervals (e.g., 22:00 to 06:00)
+        interval_minutes = (24 * 60 - start_time) + end_time
+    else:
+        interval_minutes = end_time - start_time
+
+    frequency_mapping = {
+        "5 minutes": 5,
+        "10 minutes": 10,
+        "15 minutes": 15,
+        "30 minutes": 30,
+        "1 hour": 60,
+        "2 hours": 120,
+        "3 hours": 180,
+        "6 hours": 360,
+        "12 hours": 720,
+        "Once a day": 1440,
+        "Never": float('inf')
+    }
+
+    frequency_minutes = frequency_mapping.get(frequency, float('inf'))
+
+    if interval_minutes < frequency_minutes:
+        messagebox.showwarning(
+            "Warning",
+            "The time interval is shorter than the selected frequency. You will not receive any notifications."
+        )
+        return
+
     if terms_status == "Not Accepted":
         messagebox.showwarning("Warning", "You must accept the terms and conditions.")
     else:
