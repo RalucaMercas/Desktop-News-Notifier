@@ -45,7 +45,7 @@ def clean_up_old_news(seen_news):
     return cleaned_news
 
 
-def main():
+def show_notification():
     today_news_items = get_today_news()
     i = 0
     toast = ToastNotifier()
@@ -62,4 +62,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    show_notification()

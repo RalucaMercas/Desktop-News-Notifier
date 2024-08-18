@@ -3,7 +3,7 @@ from tkinter import ttk, messagebox
 import json
 
 
-def enter_data():
+def validate_data():
     terms_status = terms_status_var.get()
     firstname = first_name_entry.get().strip()
     lastname = last_name_entry.get().strip()
@@ -80,6 +80,15 @@ def enter_data():
         messagebox.showinfo("Info", "Settings saved successfully.")
 
 
+
+def start_service():
+    messagebox.showinfo("Info", "Service started.")
+
+
+def stop_service():
+    messagebox.showinfo("Info", "Service stopped.")
+
+
 window = tkinter.Tk()
 window.title("Data Entry Form")
 
@@ -153,8 +162,14 @@ terms_check = tkinter.Checkbutton(terms_frame, text="I accept the terms and cond
                                   onvalue="Accepted", offvalue="Not Accepted")
 terms_check.grid(row=0, column=0)
 
-# button
-button = tkinter.Button(frame, text="Enter data", command=enter_data)
-button.grid(row=4, column=0, sticky="news", padx=20, pady=10)
+# buttons
+save_button = tkinter.Button(frame, text="Save", command=validate_data)
+save_button.grid(row=4, column=0, sticky="news", padx=20, pady=10)
+
+start_button = tkinter.Button(frame, text="Start service", command=start_service)
+start_button.grid(row=5, column=0, sticky="news", padx=20, pady=10)
+
+stop_button = tkinter.Button(frame, text="Stop service", command=stop_service)
+stop_button.grid(row=6, column=0, sticky="news", padx=20, pady=10)
 
 window.mainloop()
