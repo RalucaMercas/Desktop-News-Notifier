@@ -47,7 +47,6 @@ def enter_data():
         "3 hours": 180,
         "6 hours": 360,
         "12 hours": 720,
-        "Once a day": 1440,
         "Never": float('inf')
     }
 
@@ -63,9 +62,7 @@ def enter_data():
     if terms_status == "Not Accepted":
         messagebox.showwarning("Warning", "You must accept the terms and conditions.")
     else:
-        print(
-            f"First Name: {firstname} Last Name: {lastname} From: {from_hour}:{from_minute} To: {to_hour}:{to_minute}  "
-            f"Frequency: {frequency} Terms: {terms_status}")
+        messagebox.showinfo("Info", "Settings saved successfully.")
 
 
 window = tkinter.Tk()
@@ -124,7 +121,7 @@ frequency_label = tkinter.Label(notification_frequency_frame, text="Frequency:")
 frequency_label.grid(row=0, column=0)
 frequency_combobox = ttk.Combobox(notification_frequency_frame, values=["5 minutes", "10 minutes", "15 minutes",
                                                                         "30 minutes", "1 hour", "2 hours", "3 hours",
-                                                                        "6 hours", "12 hours", "Once a day", "Never"],
+                                                                        "6 hours", "12 hours", "Never"],
                                   state="readonly")
 frequency_combobox.grid(row=0, column=1)
 

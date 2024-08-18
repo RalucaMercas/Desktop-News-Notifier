@@ -11,8 +11,8 @@ def load_rss():
     return 'topnewsfeed.xml'
 
 
-def parse_xml(xmlfile):
-    tree = ET.parse(xmlfile)
+def parse_xml(xml_file):
+    tree = ET.parse(xml_file)
     root = tree.getroot()
     news_items = []
 
@@ -35,13 +35,3 @@ def get_today_news():
     xml_file = load_rss()
     news_items = parse_xml(xml_file)
     return news_items
-
-
-def main():
-    news_items = get_today_news()
-    for item in news_items:
-        print(item)
-
-
-if __name__ == "__main__":
-    main()
