@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import ttk, messagebox
+import json
 
 
 def enter_data():
@@ -38,6 +39,8 @@ def enter_data():
         interval_minutes = end_time - start_time
 
     frequency_mapping = {
+        "1 minute": 1,
+        "2 minutes": 2,
         "5 minutes": 5,
         "10 minutes": 10,
         "15 minutes": 15,
@@ -62,6 +65,18 @@ def enter_data():
     if terms_status == "Not Accepted":
         messagebox.showwarning("Warning", "You must accept the terms and conditions.")
     else:
+        preferences = {
+            "terms_status": terms_status,
+            "firstname": firstname,
+            "lastname": lastname,
+            "from_hour": from_hour,
+            "from_minute": from_minute,
+            "to_hour": to_hour,
+            "to_minute": to_minute,
+            "frequency": frequency
+        }
+        with open('user_preferences.json', 'w') as f:
+            json.dump(preferences, f, indent=4)
         messagebox.showinfo("Info", "Settings saved successfully.")
 
 
@@ -119,7 +134,8 @@ notification_frequency_frame.grid(row=2, column=0, sticky="news", padx=20, pady=
 
 frequency_label = tkinter.Label(notification_frequency_frame, text="Frequency:")
 frequency_label.grid(row=0, column=0)
-frequency_combobox = ttk.Combobox(notification_frequency_frame, values=["5 minutes", "10 minutes", "15 minutes",
+frequency_combobox = ttk.Combobox(notification_frequency_frame, values=["1 minute", "2 minutes", "5 minutes",
+                                                                        "10 minutes", "15 minutes",
                                                                         "30 minutes", "1 hour", "2 hours", "3 hours",
                                                                         "6 hours", "12 hours", "Never"],
                                   state="readonly")
