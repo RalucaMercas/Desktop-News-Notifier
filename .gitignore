@@ -1,2 +1,5 @@
 /seen_news.json
 /topnewsfeed.xml
+/user_preferences.json
+/.venv/
+/.idea/

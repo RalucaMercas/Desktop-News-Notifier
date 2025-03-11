@@ -1,10 +1,6 @@
 import tkinter
 from tkinter import ttk, messagebox
 import json
-import multiprocessing
-import time
-import notifier
-import datetime
 import subprocess
 
 frequency_mapping = {
@@ -24,13 +20,23 @@ frequency_mapping = {
 
 service_process = None
 
-
 def start_service():
-    messagebox.showinfo("Info", "Service started successfully.")
+    global service_process
+    if service_process is None:
+        service_process = subprocess.Popen(["python", "notifier.py"])
+        messagebox.showinfo("Info", "Service started successfully.")
+    else:
+        messagebox.showwarning("Warning", "Service is already running.")
 
 
 def stop_service():
-    messagebox.showinfo("Info", "Service stopped successfully.")
+    global service_process
+    if service_process is not None:
+        service_process.terminate()
+        service_process = None
+        messagebox.showinfo("Info", "Service stopped successfully.")
+    else:
+        messagebox.showwarning("Warning", "No service is running.")
 
 
 def validate_data():
