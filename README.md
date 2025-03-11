@@ -1,4 +1,4 @@
-# News Notifier - Real-Time Desktop Notifications for Latest News
+# News Notifier - Real-Time Desktop Notifications for Latest News 
 
 ## Overview
 **News Notifier** is a desktop application that delivers **real-time news notifications** by integrating an **RSS feed**. The app fetches the latest headlines and displays them as **clickable notifications**, ensuring users stay updated with breaking news. Users can customize their experience by **setting notification frequency** and scheduling **quiet hours** to avoid interruptions.
